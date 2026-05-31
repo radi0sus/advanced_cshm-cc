@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CShM · Continuous Shape Measures</title>
+  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="logo">CShM<span>·</span>analyzer</div>
+  <div class="header-meta">Continuous Shape Measures · v0.1</div>
+</header>
+
+<main>
+
+  <aside id="panel-input" class="panel">
+    <div class="panel-title">Input</div>
+
+    <div class="panel-section">
+      <label class="field-label">Structure file</label>
+      <div class="dropzone" id="dropzone">
+        <div class="dropzone-icon">⬡</div>
+        <p><strong>Drop CIF or XYZ here</strong> or click to browse</p>
+        <p style="margin-top:.2rem;font-size:.7rem;color:var(--text3)">
+          CIF: multiple data blocks supported · XYZ: Cartesian coordinates
+        </p>
+        <input type="file" id="file-input" accept=".cif,.xyz">
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <label class="field-label">Metal sites <span style="font-weight:400;color:var(--text3)">(click to toggle)</span></label>
+      <div class="tag-list" id="metal-tag-list">
+        <span style="font-size:.73rem;color:var(--text3)">Load a structure first</span>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <label class="field-label">Options</label>
+    
+      <div class="toggle-row">
+        <span class="toggle-label">Include hydrogen ligands</span>
+        <label class="toggle">
+          <input type="checkbox" id="toggle-hydrogen">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    
+      <div class="toggle-row" style="margin-top:.65rem">
+        <span class="toggle-label">Include metal–metal bonds</span>
+        <label class="toggle">
+          <input type="checkbox" id="toggle-metal-metal">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="panel-section" style="display:flex;gap:.5rem">
+      <button class="btn btn-ghost btn-full" id="btn-clear">✕ Clear</button>
+      <button class="btn btn-ghost" id="btn-export-xyz" disabled>↓ XYZ</button>
+      <button class="btn btn-ghost" id="btn-export-csv" disabled>↓ MD</button>
+    </div>
+
+    <div style="flex:1"></div>
+  </aside>
+
+  <div id="panel-viewer">
+    <div id="viewer-placeholder">
+      <div class="big">⬡</div>
+      <div>Load a structure to visualize</div>
+    </div>
+    <div id="molviewer"></div>
+  </div>
+
+  <section id="panel-results">
+    <div class="results-header">
+      <div class="results-title">Results</div>
+    </div>
+    <div id="results-content">
+      <div class="state-empty">No results yet.</div>
+    </div>
+  </section>
+
+</main>
+
+<footer id="statusbar">
+  <div class="status-item">
+    <span class="status-dot" id="status-dot"></span>
+    <span id="status-text">Ready</span>
+  </div>
+  <div class="status-item" style="margin-left:auto">
+    Radii: Alvarez (2008)
+  </div>
+</footer>
+
+<script src="static/vendor/3Dmol-min.js"></script>
+<script src="static/js/elements.js"></script>
+<script src="static/js/xyzParser.js"></script>
+<script src="static/js/cif.js"></script>
+<script src="static/js/cifParser.js"></script>
+<script src="static/js/crystalNeighbors.js"></script>
+<script src="static/js/cshm.js"></script>
+<script src="static/js/geometry.js"></script>
+<script src="static/js/export.js"></script>
+<script src="static/js/viewer.js"></script>
+<script src="static/js/ui.js"></script>
+<script src="static/js/app.js"></script>
+
+</body>
+</html>

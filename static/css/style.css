@@ -1,0 +1,1007 @@
+:root {
+  --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mono: ui-monospace, Menlo, "Cascadia Code", "Fira Mono", Consolas, monospace;
+}
+
+/* ── Light theme default ── */
+:root {
+  --bg:      #f4f5f7;
+  --bg2:     #ffffff;
+  --bg3:     #eef0f4;
+  --border:  #d8dce6;
+  --accent:  #2563eb;
+  --accent2: #7c3aed;
+  --accent3: #059669;
+  --text:    #111827;
+  --text2:   #374151;
+  --text3:   #9ca3af;
+  --danger:  #dc2626;
+  --warn:    #d97706;
+  --shadow:  0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
+  --radius:  5px;
+}
+
+/* ── Dark theme ── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:      #0f1117;
+    --bg2:     #161b27;
+    --bg3:     #1e2535;
+    --border:  #2a3249;
+    --accent:  #4f9cf9;
+    --accent2: #a78bfa;
+    --accent3: #34d399;
+    --text:    #e2e8f0;
+    --text2:   #94a3b8;
+    --text3:   #4a5568;
+    --danger:  #f87171;
+    --warn:    #fbbf24;
+    --shadow:  0 1px 3px rgba(0,0,0,.4);
+  }
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 15.5px;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ── */
+header {
+  border-bottom: 1px solid var(--border);
+  padding: 0 1.5rem;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg2);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow);
+}
+
+.logo {
+  font-family: var(--mono);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+
+.logo span {
+  color: var(--accent);
+}
+
+.header-meta {
+  font-family: var(--mono);
+  font-size: .78rem;
+  color: var(--text3);
+}
+
+/* ── Layout ── */
+main {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  grid-template-rows: auto 1fr;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ── Panel base ── */
+.panel {
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+}
+
+.panel-title {
+  font-family: var(--mono);
+  font-size: .76rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text3);
+  padding: 1rem 1.2rem .65rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.panel-section {
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+#panel-input {
+  grid-row: 1 / -1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Drop zone ── */
+.dropzone {
+  border: 1.5px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 1.35rem .95rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .2s, background .2s;
+  background: var(--bg3);
+}
+
+.dropzone:hover,
+.dropzone.drag-over {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+}
+
+.dropzone-icon {
+  font-size: 1.7rem;
+  margin-bottom: .45rem;
+  opacity: .45;
+}
+
+.dropzone p {
+  font-size: .86rem;
+  color: var(--text2);
+  line-height: 1.5;
+}
+
+.dropzone p strong {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.dropzone input[type=file] {
+  display: none;
+}
+
+/* ── Or divider ── */
+.or-divider {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin: .65rem 0;
+  font-size: .76rem;
+  color: var(--text3);
+  font-family: var(--mono);
+}
+
+.or-divider::before,
+.or-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── Textarea ── */
+textarea {
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: .82rem;
+  padding: .65rem .75rem;
+  resize: vertical;
+  min-height: 105px;
+  outline: none;
+  transition: border-color .2s;
+  line-height: 1.5;
+}
+
+textarea::placeholder {
+  color: var(--text3);
+}
+
+textarea:focus {
+  border-color: var(--accent);
+}
+
+/* ── Form controls ── */
+label.field-label {
+  display: block;
+  font-size: .78rem;
+  color: var(--text2);
+  margin-bottom: .45rem;
+  font-family: var(--mono);
+}
+
+input[type=text],
+input[type=number],
+select {
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: .86rem;
+  padding: .5rem .65rem;
+  outline: none;
+  transition: border-color .2s;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--accent);
+}
+
+select option {
+  background: var(--bg2);
+}
+
+/* ── Toggle ── */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+}
+
+.toggle-label {
+  font-size: .88rem;
+  color: var(--text2);
+}
+
+.toggle {
+  position: relative;
+  width: 38px;
+  height: 21px;
+  flex-shrink: 0;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  inset: 0;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background .2s, border-color .2s;
+}
+
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  left: 3px;
+  top: 3px;
+  background: var(--text3);
+  border-radius: 50%;
+  transition: transform .2s, background .2s;
+}
+
+.toggle input:checked + .toggle-slider {
+  background: color-mix(in srgb, var(--accent) 20%, transparent);
+  border-color: var(--accent);
+}
+
+.toggle input:checked + .toggle-slider::before {
+  transform: translateX(17px);
+  background: var(--accent);
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .55rem 1rem;
+  border-radius: var(--radius);
+  border: none;
+  font-family: var(--mono);
+  font-size: .86rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1);
+}
+
+.btn-primary:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text2);
+  border: 1px solid var(--border);
+}
+
+.btn-ghost:hover {
+  border-color: var(--text2);
+  color: var(--text);
+}
+
+.btn-ghost:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+}
+
+.btn-full {
+  width: 100%;
+  justify-content: center;
+}
+
+/* ── Metal tags ── */
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  margin-top: .5rem;
+}
+
+#metal-tag-list {
+  max-height: 150px;
+  overflow-y: auto;
+  padding-right: .2rem;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  padding: .25rem .6rem;
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: .84rem;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--text2);
+  cursor: pointer;
+  transition: all .15s;
+  user-select: none;
+}
+
+.tag:hover {
+  border-color: var(--accent2);
+  color: var(--text);
+}
+
+.tag.active {
+  background: color-mix(in srgb, var(--accent2) 12%, transparent);
+  border-color: var(--accent2);
+  color: var(--accent2);
+}
+
+/* ── 3D Viewer ── */
+#panel-viewer {
+  grid-column: 2;
+  grid-row: 1;
+  height: 330px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#viewer-placeholder {
+  text-align: center;
+  color: var(--text3);
+  font-family: var(--mono);
+  font-size: .86rem;
+  pointer-events: none;
+}
+
+#viewer-placeholder .big {
+  font-size: 2.4rem;
+  margin-bottom: .4rem;
+  opacity: .25;
+}
+
+#molviewer {
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+/* ── Results ── */
+#panel-results {
+  grid-column: 2;
+  grid-row: 2;
+  background: var(--bg);
+  overflow-y: auto;
+  padding: 1.25rem 1.55rem;
+}
+
+.results-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.results-title {
+  font-family: var(--mono);
+  font-size: .76rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+
+.export-btns {
+  display: flex;
+  gap: .4rem;
+}
+
+/* ── Result card ── */
+.result-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.result-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .7rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg3);
+}
+
+.result-atom-label {
+  font-family: var(--mono);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.result-cn-badge {
+  font-family: var(--mono);
+  font-size: .78rem;
+  padding: .18rem .5rem;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  color: var(--accent);
+}
+
+/* ── CShM table ── */
+.cshm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--mono);
+  font-size: .86rem;
+}
+
+.cshm-table th {
+  text-align: left;
+  padding: .5rem .8rem;
+  color: var(--text3);
+  font-weight: 500;
+  font-size: .72rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+}
+
+.cshm-table td {
+  padding: .5rem .8rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+  color: var(--text2);
+}
+
+.cshm-table tr:last-child td {
+  border-bottom: none;
+}
+
+.cshm-table tr:hover td {
+  background: color-mix(in srgb, var(--accent) 3%, transparent);
+}
+
+.cshm-table strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.val-good {
+  color: var(--accent3);
+  font-weight: 600;
+}
+
+.val-mid {
+  color: var(--warn);
+}
+
+.val-poor {
+  color: var(--text2);
+}
+
+.bar-cell {
+  width: 110px;
+}
+
+.cshm-bar-bg {
+  height: 4px;
+  background: var(--bg3);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.cshm-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: var(--accent);
+  transition: width .4s ease;
+}
+
+/* ── Geometry badges ── */
+.geom-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem;
+  padding: .7rem .8rem;
+  border-top: 1px solid var(--border);
+}
+
+.geom-badge {
+  font-family: var(--mono);
+  font-size: .78rem;
+  padding: .22rem .5rem;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  color: var(--text3);
+}
+
+.geom-badge.highlight {
+  border-color: color-mix(in srgb, var(--accent3) 40%, transparent);
+  background: color-mix(in srgb, var(--accent3) 8%, transparent);
+  color: var(--accent3);
+}
+
+/* ── States ── */
+.state-empty {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: var(--text3);
+  font-family: var(--mono);
+  font-size: .86rem;
+}
+
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  margin: 0 auto .7rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Status bar ── */
+#statusbar {
+  height: 28px;
+  border-top: 1px solid var(--border);
+  background: var(--bg2);
+  display: flex;
+  align-items: center;
+  padding: 0 1.1rem;
+  gap: 1.2rem;
+  font-family: var(--mono);
+  font-size: .74rem;
+  color: var(--text3);
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text3);
+}
+
+.status-dot.ok {
+  background: var(--accent3);
+}
+
+.status-dot.err {
+  background: var(--danger);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text3);
+}
+
+/* ── Responsive ── */
+@media (max-width: 860px) {
+  main {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto 1fr;
+  }
+
+  #panel-input {
+    grid-row: 1;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  #panel-viewer {
+    grid-column: 1;
+    grid-row: 2;
+    height: 250px;
+  }
+
+  #panel-results {
+    grid-column: 1;
+    grid-row: 3;
+  }
+}
+
+/* ── Ligand list ── */
+.ligand-list {
+  padding: .65rem .8rem;
+  font-family: var(--mono);
+  font-size: .8rem;
+  color: var(--text2);
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  align-items: center;
+  border-top: 1px solid var(--border);
+}
+
+.ligand-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .2rem;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: .16rem .42rem;
+  color: var(--text2);
+  font-size: .8rem;
+}
+
+.symop-tag {
+  font-size: .68rem;
+  color: var(--accent2);
+  background: color-mix(in srgb, var(--accent2) 10%, transparent);
+  border-radius: 2px;
+  padding: 0 .25rem;
+  cursor: help;
+}
+
+/* ── Active result card ── */
+.result-card.active-card {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+/* ── Viewer-focus tag currently shown in 3D viewer ── */
+.tag.viewer-focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* ── Per-card view button ── */
+.btn-view-sphere {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text3);
+  font-size: 1.15rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all .15s;
+  flex-shrink: 0;
+  font-family: var(--mono);
+  padding: 0;
+  line-height: 1;
+}
+
+.btn-view-sphere:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-view-sphere.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+/* ── Per-card tolerance slider ── */
+.card-tol-row {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .65rem .85rem;
+  border-top: 1px solid var(--border);
+  background: var(--bg3);
+}
+
+.card-tol-label {
+  font-family: var(--mono);
+  font-size: .74rem;
+  color: var(--text3);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.card-tol-slider {
+  flex: 1;
+  accent-color: var(--accent);
+  height: 4px;
+  cursor: pointer;
+}
+
+.card-tol-value {
+  font-family: var(--mono);
+  font-size: .8rem;
+  color: var(--accent);
+  font-weight: 600;
+  width: 3rem;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ── Floating global 3D viewer ─────────────────────────────────────────────── */
+
+/* Restore normal two-column layout */
+main {
+  display: grid;
+  grid-template-columns: 350px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  flex: 1;
+  min-height: 0;
+}
+
+#panel-input {
+  grid-column: 1;
+  grid-row: 1;
+  border-right: 1px solid var(--border);
+  border-bottom: none;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+#panel-results {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 1.25rem 1.55rem;
+
+  /* leave some room so the floating viewer does not hide final content */
+  padding-bottom: 390px;
+}
+
+/* Floating viewer window */
+#panel-viewer {
+  display: flex !important;
+  position: fixed;
+  right: 1.1rem;
+  bottom: calc(28px + 1.1rem); /* status bar + spacing */
+
+  width: min(520px, 38vw);
+  height: 350px;
+
+  grid-column: auto;
+  grid-row: auto;
+
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 8px 28px rgba(0,0,0,.22);
+
+  z-index: 250;
+  overflow: hidden;
+
+  align-items: center;
+  justify-content: center;
+}
+
+/* Viewer fills floating window */
+#molviewer {
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+/* Placeholder inside floating viewer */
+#viewer-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Slight transparency when not hovered, optional but useful */
+#panel-viewer {
+  opacity: .96;
+  transition: opacity .15s, box-shadow .15s, transform .15s;
+}
+
+#panel-viewer:hover {
+  opacity: 1;
+  box-shadow: 0 10px 34px rgba(0,0,0,.28);
+}
+
+/* Smaller screens: viewer becomes bottom sheet */
+@media (max-width: 980px) {
+  main {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  #panel-input {
+    grid-column: 1;
+    grid-row: 1;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  #panel-results {
+    grid-column: 1;
+    grid-row: 2;
+    padding-bottom: 330px;
+  }
+
+  #panel-viewer {
+    left: .8rem;
+    right: .8rem;
+    bottom: calc(28px + .8rem);
+    width: auto;
+    height: 285px;
+  }
+}
+
+/* ── Geometry badges: compact, readable, no loud blue ─────────────────────── */
+
+.geom-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem;
+  padding: .65rem .8rem;
+  border-top: 1px solid var(--border);
+  background: var(--bg2);
+}
+
+.geom-badge {
+  font-family: var(--mono);
+  font-size: .82rem;
+  padding: .24rem .52rem;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  color: var(--text2);
+}
+
+.geom-key {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.geom-eq {
+  color: var(--text3);
+  margin: 0 .18rem;
+}
+
+.geom-val {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* Header badge for best CShM: keep highlight, but less aggressive */
+.result-card-header .geom-badge.highlight {
+  border-color: color-mix(in srgb, var(--accent3) 30%, var(--border));
+  background: color-mix(in srgb, var(--accent3) 7%, var(--bg3));
+  color: var(--text);
+  font-size: .78rem;
+}
+
+.result-card-header .geom-badge.highlight strong {
+  color: var(--text);
+}
+
+/* Existing highlight class should not force all geometry badges green */
+.geom-badge.highlight {
+  color: var(--text);
+}
+
+/* ── Clickable ligand chips ───────────────────────────────────────────────── */
+
+.ligand-chip {
+  cursor: pointer;
+  transition: opacity .15s, border-color .15s, background .15s, color .15s, text-decoration-color .15s;
+}
+
+.ligand-chip.active {
+  border-color: color-mix(in srgb, var(--accent2) 35%, var(--border));
+  background: color-mix(in srgb, var(--accent2) 8%, var(--bg3));
+  color: var(--text);
+}
+
+.ligand-chip.inactive {
+  opacity: .42;
+  color: var(--text3);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--text3);
+}
+
+.ligand-chip.inactive .symop-tag {
+  opacity: .55;
+}
+
+.ligand-chip:hover {
+  border-color: var(--accent);
+  color: var(--text);
+  opacity: 1;
+}
