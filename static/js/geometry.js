@@ -40,11 +40,22 @@ function calcGeometry(centralAtom, ligands) {
     if (cn === 6 && angles.length === 15) {
       const O = calcOctahedricity(angles);
       if (O !== null) result['O'] = O;
+    
+      const tau6Largest = calcTau6StoeckliEvans(angles);
+      if (tau6Largest !== null) {
+        result['τ₆(largest)'] = tau6Largest;
+      }
+    
+      const tau6Smallest = calcTau6Intra(angles);
+      if (tau6Smallest !== null) {
+        result['τ₆(smallest)'] = tau6Smallest.tau;
+        result['θ₆(smallest) /°'] = tau6Smallest.thetaIntra;
+      }
     }
   }
 
   const volume = calcPolyhedralVolume(centralAtom, ligands);
-  
+
   if (volume !== null && volume !== undefined && Number.isFinite(volume)) {
     result['V /Å³'] = volume;
   }
@@ -114,6 +125,62 @@ function calcOctahedricity(measuredAngles) {
   }
 
   return Math.sqrt(sumSq / measuredAngles.length);
+}
+
+function calcTau6StoeckliEvans(measuredAngles) {
+  if (!measuredAngles || measuredAngles.length !== 15) return null;
+
+  // Literature τ6 approach:
+  // Use the three largest L–M–L angles.
+  //
+  // τ6 = [540° − (α1 + α2 + α3)] / 180°
+  //
+  // Ideal octahedron:
+  //   α1 + α2 + α3 = 180 + 180 + 180 = 540
+  //   τ6 = 0
+  //
+  // Ideal trigonal prism:
+  //   τ6 approaches 1 depending on the limiting reference geometry.
+  const threeLargest = [...measuredAngles]
+    .sort((a, b) => b - a)
+    .slice(0, 3);
+
+  if (threeLargest.length !== 3) return null;
+
+  const sum = threeLargest.reduce((s, a) => s + a, 0);
+
+  return (540.0 - sum) / 180.0;
+}
+
+function calcTau6Intra(measuredAngles) {
+  if (!measuredAngles || measuredAngles.length !== 15) return null;
+
+  // User-defined intra-layer τ6 descriptor:
+  //
+  // θ_intra = mean of the six smallest L–M–L angles
+  // τ6(intra) = (90° − θ_intra) / 19.47°
+  //
+  // Ideal octahedron:
+  //   six smallest angles ≈ 90°
+  //   τ6(intra) ≈ 0
+  //
+  // Ideal trigonal prism:
+  //   intra-layer angles approach ca. 70.53°
+  //   90 − 70.53 = 19.47
+  //   τ6(intra) ≈ 1
+  const sixSmallest = [...measuredAngles]
+    .sort((a, b) => a - b)
+    .slice(0, 6);
+
+  if (sixSmallest.length !== 6) return null;
+
+  const thetaIntra = sixSmallest.reduce((s, a) => s + a, 0) / 6.0;
+  const tau = (90.0 - thetaIntra) / 19.47;
+
+  return {
+    tau,
+    thetaIntra,
+  };
 }
 
 // ── Convex hull volume for small point sets ───────────────────────────────────

@@ -200,7 +200,19 @@ function geometryBadgesHTML(r) {
   if (hasGeomValue(geom['O'])) {
     items.push(['O', geom['O']]);
   }
-
+  
+  if (hasGeomValue(geom['τ₆(largest)'])) {
+    items.push(['τ₆(largest)', geom['τ₆(largest)']]);
+  }
+  
+  if (hasGeomValue(geom['τ₆(smallest)'])) {
+    items.push(['τ₆(smallest)', geom['τ₆(smallest)']]);
+  }
+  
+  if (hasGeomValue(geom['θ₆(smallest) /°'])) {
+    items.push(['θ₆(smallest) /°', geom['θ₆(smallest) /°']]);
+  }
+  
   if (hasGeomValue(geom['V /Å³'])) {
     items.push(['V /Å³', geom['V /Å³']]);
   }

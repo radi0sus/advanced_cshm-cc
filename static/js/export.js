@@ -63,8 +63,19 @@ function markdownSectionForResult(r) {
   if (hasValue(r.geom?.['O'])) {
     summaryRows.push(['O', formatMDNumber(r.geom['O'])]);
   }
-
-  // Show V also if exactly 0 or close to 0.
+  
+  if (hasValue(r.geom?.['τ₆(largest)'])) {
+    summaryRows.push(['τ₆(largest)', formatMDNumber(r.geom['τ₆(largest)'])]);
+  }
+  
+  if (hasValue(r.geom?.['τ₆(smallest)'])) {
+    summaryRows.push(['τ₆(smallest)', formatMDNumber(r.geom['τ₆(smallest)'])]);
+  }
+  
+  if (hasValue(r.geom?.['θ₆(smallest) /°'])) {
+    summaryRows.push(['θ₆(smallest) /°', formatMDNumber(r.geom['θ₆(smallest) /°'])]);
+  }
+  
   if (hasValue(r.geom?.['V /Å³'])) {
     summaryRows.push(['V /Å³', formatMDNumber(r.geom['V /Å³'])]);
   }
