@@ -6,6 +6,8 @@
 const state = {
   blocks:         [],
   sourceType:     null,
+  inputBaseName: 'cshm_results',
+  inputExt: null,
   metals:         [],    // [{ atom, block, key, bondTol }]
   selectedMetals: new Set(),
   results:        [],
@@ -100,7 +102,7 @@ if (clearBtn) {
 if (exportMdBtn) {
   exportMdBtn.addEventListener('click', () => {
     if (typeof exportMarkdown === 'function') {
-      exportMarkdown(state.results);
+      exportMarkdown(state.results, state.inputBaseName);
     } else if (typeof exportCSV === 'function') {
       // Backward-compatible alias if export.js still exposes exportCSV().
       exportCSV(state.results);
@@ -113,7 +115,7 @@ if (exportMdBtn) {
 if (exportXyzBtn) {
   exportXyzBtn.addEventListener('click', () => {
     if (typeof exportXYZ === 'function') {
-      exportXYZ(state.results);
+      exportXYZ(state.results, state.inputBaseName, state.inputExt);
     } else {
       setStatus('XYZ export not available', 'err');
     }
@@ -125,6 +127,9 @@ async function loadFile(file) {
   if (!file) return;
 
   const ext = file.name.split('.').pop().toLowerCase();
+  
+  state.inputExt = ext;
+  state.inputBaseName = file.name.replace(/\.[^.]+$/, '') || 'cshm_results';
 
   setStatus('Loading ' + file.name + '…', 'idle');
 

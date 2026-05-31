@@ -2,7 +2,7 @@
 // Pure Markdown and XYZ export.
 // Non-module version for direct file:// usage via open index.html.
 
-function exportMarkdown(results) {
+function exportMarkdown(results, baseName = 'cshm_results') {
   if (!results || !results.length) return;
 
   const parts = [];
@@ -20,7 +20,7 @@ function exportMarkdown(results) {
     parts.push('');
   }
 
-  download('cshm_results.md', parts.join('\n'), 'text/markdown');
+  download(`${safeFilename(baseName)}.md`, parts.join('\n'), 'text/markdown');
 }
 
 // Backwards-compatible alias.
@@ -148,7 +148,7 @@ function markdownTable(headers, rows, numericColumns = []) {
   return lines.join('\n');
 }
 
-function exportXYZ(results) {
+function exportXYZ(results, baseName = 'coordination_spheres', inputExt = null) {
   if (!results || !results.length) return;
 
   const blocks = results.map(r => {
@@ -189,10 +189,21 @@ function exportXYZ(results) {
     ].join('\n');
   });
 
-  download('coordination_spheres.xyz', blocks.join('\n\n') + '\n', 'chemical/x-xyz');
+  const safeBase = safeFilename(baseName);
+  const filename = inputExt === 'xyz'
+    ? `${safeBase}_spheres.xyz`
+    : `${safeBase}.xyz`;
+  
+  download(filename, blocks.join('\n\n') + '\n', 'chemical/x-xyz');
 }
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
+
+function safeFilename(name) {
+  return String(name || 'cshm_results')
+    .replace(/[\/\\?%*:|"<>]/g, '_')
+    .trim() || 'cshm_results';
+}
 
 function relativeCoords(metal, atom) {
   return {
