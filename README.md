@@ -13,7 +13,9 @@ The app is designed to work without a local server:
 open index.html
 ```
 
-It can also be hosted as a static web page, e.g. via GitHub Pages.
+It can also be hosted as a static web page, e.g. via GitHub Pages.  
+
+[`https://radi0sus.github.io/advanced_cshm-cc/`](https://radi0sus.github.io/advanced_cshm-cc/)
 
 ---
 
