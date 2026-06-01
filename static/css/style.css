@@ -98,8 +98,8 @@ header {
 /* ── Layout ── */
 main {
   display: grid;
-  grid-template-columns: 350px 1fr;
-  grid-template-rows: auto 1fr;
+  grid-template-columns: 350px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
   flex: 1;
   min-height: 0;
 }
@@ -398,47 +398,16 @@ select option {
   color: var(--accent2);
 }
 
-/* ── 3D Viewer ── */
-#panel-viewer {
-  grid-column: 2;
-  grid-row: 1;
-  height: 330px;
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-#viewer-placeholder {
-  text-align: center;
-  color: var(--text3);
-  font-family: var(--mono);
-  font-size: .86rem;
-  pointer-events: none;
-}
-
-#viewer-placeholder .big {
-  font-size: 2.4rem;
-  margin-bottom: .4rem;
-  opacity: .25;
-}
-
-#molviewer {
-  width: 100%;
-  height: 100%;
-  display: none;
-}
-
 /* ── Results ── */
 #panel-results {
   grid-column: 2;
-  grid-row: 2;
+  grid-row: 1;
+  min-width: 0;
+  min-height: 0;
   background: var(--bg);
   overflow-y: auto;
   padding: 1.25rem 1.55rem;
+  padding-bottom: 410px;
 }
 
 .results-header {
@@ -567,30 +536,6 @@ select option {
   transition: width .4s ease;
 }
 
-/* ── Geometry badges ── */
-.geom-badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .45rem;
-  padding: .7rem .8rem;
-  border-top: 1px solid var(--border);
-}
-
-.geom-badge {
-  font-family: var(--mono);
-  font-size: .78rem;
-  padding: .22rem .5rem;
-  border-radius: 3px;
-  border: 1px solid var(--border);
-  color: var(--text3);
-}
-
-.geom-badge.highlight {
-  border-color: color-mix(in srgb, var(--accent3) 40%, transparent);
-  background: color-mix(in srgb, var(--accent3) 8%, transparent);
-  color: var(--accent3);
-}
-
 /* ── States ── */
 .state-empty {
   text-align: center;
@@ -668,31 +613,6 @@ select option {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text3);
-}
-
-/* ── Responsive ── */
-@media (max-width: 860px) {
-  main {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto 1fr;
-  }
-
-  #panel-input {
-    grid-row: 1;
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
-
-  #panel-viewer {
-    grid-column: 1;
-    grid-row: 2;
-    height: 250px;
-  }
-
-  #panel-results {
-    grid-column: 1;
-    grid-row: 3;
-  }
 }
 
 /* ── Ligand list ── */
@@ -807,121 +727,6 @@ select option {
   flex-shrink: 0;
 }
 
-/* ── Floating global 3D viewer ─────────────────────────────────────────────── */
-
-/* Restore normal two-column layout */
-main {
-  display: grid;
-  grid-template-columns: 350px minmax(0, 1fr);
-  grid-template-rows: minmax(0, 1fr);
-  flex: 1;
-  min-height: 0;
-}
-
-#panel-input {
-  grid-column: 1;
-  grid-row: 1;
-  border-right: 1px solid var(--border);
-  border-bottom: none;
-  min-height: 0;
-  overflow-y: auto;
-}
-
-#panel-results {
-  grid-column: 2;
-  grid-row: 1;
-  min-width: 0;
-  min-height: 0;
-  overflow-y: auto;
-  padding: 1.25rem 1.55rem;
-
-  /* leave some room so the floating viewer does not hide final content */
-  padding-bottom: 390px;
-}
-
-/* Floating viewer window */
-#panel-viewer {
-  display: flex !important;
-  position: fixed;
-  right: 1.1rem;
-  bottom: calc(28px + 1.1rem); /* status bar + spacing */
-
-  width: min(520px, 38vw);
-  height: 350px;
-
-  grid-column: auto;
-  grid-row: auto;
-
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  box-shadow: 0 8px 28px rgba(0,0,0,.22);
-
-  z-index: 250;
-  overflow: hidden;
-
-  align-items: center;
-  justify-content: center;
-}
-
-/* Viewer fills floating window */
-#molviewer {
-  width: 100%;
-  height: 100%;
-  display: none;
-}
-
-/* Placeholder inside floating viewer */
-#viewer-placeholder {
-  width: 100%;
-  height: 100%;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Slight transparency when not hovered, optional but useful */
-#panel-viewer {
-  opacity: .96;
-  transition: opacity .15s, box-shadow .15s, transform .15s;
-}
-
-#panel-viewer:hover {
-  opacity: 1;
-  box-shadow: 0 10px 34px rgba(0,0,0,.28);
-}
-
-/* Smaller screens: viewer becomes bottom sheet */
-@media (max-width: 980px) {
-  main {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto minmax(0, 1fr);
-  }
-
-  #panel-input {
-    grid-column: 1;
-    grid-row: 1;
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
-
-  #panel-results {
-    grid-column: 1;
-    grid-row: 2;
-    padding-bottom: 330px;
-  }
-
-  #panel-viewer {
-    left: .8rem;
-    right: .8rem;
-    bottom: calc(28px + .8rem);
-    width: auto;
-    height: 285px;
-  }
-}
-
 /* ── Geometry badges: compact, readable, no loud blue ─────────────────────── */
 
 .geom-badges {
@@ -1004,4 +809,311 @@ main {
   border-color: var(--accent);
   color: var(--text);
   opacity: 1;
+}
+
+/* ── Collapsible floating 3D viewer ───────────────────────────────────────── */
+/* HTML structure:
+   #panel-viewer
+     #viewer-header
+       #viewer-toggle
+       .viewer-title
+     #viewer-content
+       #viewer-placeholder
+       #molviewer
+*/
+
+/* Keep normal app layout: input left, results right */
+main {
+  display: grid;
+  grid-template-columns: 350px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  flex: 1;
+  min-height: 0;
+}
+
+#panel-input {
+  grid-column: 1;
+  grid-row: 1;
+  border-right: 1px solid var(--border);
+  border-bottom: none;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+#panel-results {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 1.25rem 1.55rem;
+  padding-bottom: 410px; /* space for open floating viewer */
+}
+
+/* Floating viewer frame */
+#panel-viewer {
+  display: flex !important;
+  flex-direction: column;
+
+  position: fixed;
+  right: 1.1rem;
+  bottom: calc(28px + 1.1rem);
+
+  width: min(520px, 38vw);
+  height: 380px;
+
+  grid-column: auto;
+  grid-row: auto;
+
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 8px 28px rgba(0,0,0,.22);
+
+  z-index: 250;
+  overflow: hidden;
+
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+
+  opacity: .96;
+  transition:
+    opacity .15s,
+    box-shadow .15s,
+    height .18s ease,
+    width .18s ease;
+}
+
+#panel-viewer:hover {
+  opacity: 1;
+  box-shadow: 0 10px 34px rgba(0,0,0,.28);
+}
+
+/* Header */
+#viewer-header {
+  height: 30px;
+  flex: 0 0 30px;
+
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+
+  background: var(--bg3);
+  border-bottom: 1px solid var(--border);
+  color: var(--text2);
+
+  font-family: var(--mono);
+  font-size: .78rem;
+
+  padding: 0 .55rem;
+  user-select: none;
+}
+
+#viewer-toggle {
+  width: 22px;
+  height: 22px;
+
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg2);
+  color: var(--accent);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: var(--mono);
+  font-size: .85rem;
+  line-height: 1;
+
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+#viewer-toggle:hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 7%, var(--bg2));
+}
+
+#viewer-toggle-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+}
+
+.viewer-title {
+  color: var(--text2);
+  white-space: nowrap;
+}
+
+/* Viewer content area.
+   This is the important part for 3Dmol sizing. */
+#viewer-content {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  position: relative;
+  background: var(--bg2);
+}
+
+/* 3Dmol container fills viewer-content.
+   display is controlled by app.js: none before structure, block after showInViewer(). */
+#molviewer {
+  position: absolute;
+  inset: 0;
+
+  width: 100% !important;
+  height: 100% !important;
+
+  display: none;
+}
+
+/* Placeholder also fills viewer-content */
+#viewer-placeholder {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+  color: var(--text3);
+  font-family: var(--mono);
+  font-size: .86rem;
+  pointer-events: none;
+}
+
+#viewer-placeholder .big {
+  font-size: 2.4rem;
+  margin-bottom: .4rem;
+  opacity: .25;
+}
+
+/* Collapsed state */
+#panel-viewer.collapsed {
+  width: 180px;
+  height: 30px;
+}
+
+#panel-viewer.collapsed #viewer-header {
+  border-bottom: none;
+}
+
+#panel-viewer.collapsed #viewer-content {
+  display: none;
+}
+
+/* If panel-viewer is before panel-results in the DOM, reduce reserved bottom
+   space when collapsed. If selector does not apply in some layout, harmless. */
+#panel-viewer.collapsed ~ #panel-results {
+  padding-bottom: 1.25rem;
+}
+
+/* Responsive: bottom drawer on smaller screens */
+@media (max-width: 980px) {
+  main {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  #panel-input {
+    grid-column: 1;
+    grid-row: 1;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  #panel-results {
+    grid-column: 1;
+    grid-row: 2;
+    padding-bottom: 345px;
+  }
+
+  #panel-viewer {
+    left: .8rem;
+    right: .8rem;
+    bottom: calc(28px + .8rem);
+
+    width: auto;
+    height: 315px;
+  }
+
+  #panel-viewer.collapsed {
+    left: auto;
+    right: .8rem;
+    width: 180px;
+    height: 30px;
+  }
+}
+
+/* ── Harmonized badges in result-card header ───────────────────────────────── */
+
+.result-card-header > div:first-child {
+  align-items: center;
+}
+
+/* Common badge geometry */
+.result-block-label,
+.result-atom-label,
+.result-cn-badge {
+  display: inline-flex;
+  align-items: center;
+  height: 1.65rem;
+  line-height: 1;
+  border-radius: 3px;
+  padding: 0 .48rem;
+  font-family: var(--mono);
+  white-space: nowrap;
+}
+
+/* Structure/block name */
+.result-block-label {
+  font-size: .78rem;
+  font-weight: 500;
+  color: var(--text2);
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  max-width: 18rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Metal atom label */
+.result-atom-label {
+  font-size: .86rem;
+  font-weight: 700;
+  color: var(--text);
+  background: color-mix(in srgb, var(--accent2) 7%, var(--bg2));
+  border: 1px solid color-mix(in srgb, var(--accent2) 24%, var(--border));
+}
+
+/* Coordination number */
+.result-cn-badge {
+  font-size: .78rem;
+  font-weight: 600;
+  background: color-mix(in srgb, var(--accent) 10%, var(--bg2));
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border));
+  color: var(--accent);
+}
+
+/* Active card: slightly clearer, but not too loud */
+.result-card.active-card .result-block-label {
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--accent) 25%, var(--border));
+}
+
+.result-card.active-card .result-atom-label {
+  border-color: color-mix(in srgb, var(--accent2) 40%, var(--border));
+}
+
+.result-card.active-card .result-cn-badge {
+  border-color: color-mix(in srgb, var(--accent) 42%, var(--border));
 }

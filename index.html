@@ -68,11 +68,20 @@
   </aside>
 
   <div id="panel-viewer">
-    <div id="viewer-placeholder">
-      <div class="big">⬡</div>
-      <div>Load a structure to visualize</div>
+    <div id="viewer-header">
+      <button id="viewer-toggle" type="button" title="Collapse/expand 3D viewer">
+        <span id="viewer-toggle-icon">▾</span>
+      </button>
+      <span class="viewer-title">3D Viewer</span>
     </div>
-    <div id="molviewer"></div>
+  
+    <div id="viewer-content">
+      <div id="viewer-placeholder">
+        <div class="big">⬡</div>
+        <div>Load a structure to visualize</div>
+      </div>
+      <div id="molviewer"></div>
+    </div>
   </div>
 
   <section id="panel-results">

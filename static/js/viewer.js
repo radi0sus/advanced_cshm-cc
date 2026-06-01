@@ -326,3 +326,13 @@ function removeLabelsSafe() {
   // viewer.clear() normally also removes labels/shapes/models.
   // This helper is intentionally defensive.
 }
+
+function resizeViewer() {
+  if (!viewer) return;
+
+  if (typeof viewer.resize === 'function') {
+    viewer.resize();
+  }
+
+  viewer.render();
+}

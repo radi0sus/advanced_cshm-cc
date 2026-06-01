@@ -28,6 +28,9 @@ const resultsPanel = document.getElementById('results-content');
 const tagList      = document.getElementById('metal-tag-list');
 const statusText   = document.getElementById('status-text');
 const statusDot    = document.getElementById('status-dot');
+const viewerPanel  = document.getElementById('panel-viewer');
+const viewerToggle = document.getElementById('viewer-toggle');
+const viewerIcon   = document.getElementById('viewer-toggle-icon');
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 // Viewer init must not prevent the rest of the app from working.
@@ -42,6 +45,30 @@ try {
 }
 
 setStatus('Ready', 'idle');
+
+if (viewerToggle && viewerPanel) {
+  viewerToggle.addEventListener('click', () => {
+    const collapsed = viewerPanel.classList.toggle('collapsed');
+
+    if (viewerIcon) {
+      viewerIcon.textContent = collapsed ? '▴' : '▾';
+    }
+
+    // If expanding: wait until CSS transition/layout has finished,
+    // then fully re-render the active sphere including labels.
+    if (!collapsed) {
+      setTimeout(() => {
+        const active = state.results.find(r => r.key === state.activeKey);
+
+        if (active) {
+          showInViewer(active);
+        } else if (typeof resizeViewer === 'function') {
+          resizeViewer();
+        }
+      }, 250);
+    }
+  });
+}
 
 // ── Drag & Drop / file picker ─────────────────────────────────────────────────
 if (dropzone) {
@@ -487,11 +514,25 @@ function onCardFocus(result) {
 function showInViewer(result) {
   if (!result) return;
 
+  // Always mark the active card, even if the viewer is collapsed.
+  markActiveResultCard(result.key);
+
+  // Important:
+  // Do not render 3Dmol while the viewer content is collapsed/hidden.
+  // Labels are unreliable when created in a hidden container.
+  if (viewerPanel && viewerPanel.classList.contains('collapsed')) {
+    return;
+  }
+
   const vp = document.getElementById('viewer-placeholder');
   const mv = document.getElementById('molviewer');
 
   if (vp) vp.style.display = 'none';
   if (mv) mv.style.display = 'block';
+
+  if (typeof resizeViewer === 'function') {
+    resizeViewer();
+  }
 
   if (typeof highlightSphere === 'function') {
     highlightSphere(result.metal, result.ligands);
@@ -499,7 +540,9 @@ function showInViewer(result) {
     console.warn('highlightSphere not available');
   }
 
-  markActiveResultCard(result.key);
+  if (typeof resizeViewer === 'function') {
+    setTimeout(() => resizeViewer(), 50);
+  }
 }
 
 function hideViewer() {

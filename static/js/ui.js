@@ -106,7 +106,7 @@ function resultCard(r, idx) {
   const best = cshmEntries[0];
 
   const blockLabel = r.block
-    ? `<span style="font-size:.72rem;color:var(--text3);font-family:var(--mono)">${escapeHTML(r.block.title ?? '')}</span>`
+    ? `<span class="result-block-label">${escapeHTML(r.block.title ?? '')}</span>`
     : '';
 
   const tolRawPct = ((r.bondTol ?? 1.10) * 100 - 100);
