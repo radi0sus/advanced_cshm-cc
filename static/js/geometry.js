@@ -40,18 +40,22 @@ function calcGeometry(centralAtom, ligands) {
     if (cn === 6 && angles.length === 15) {
       const O = calcOctahedricity(angles);
       if (O !== null) result['O'] = O;
-    
-      const tau6Largest = calcTau6StoeckliEvans(angles);
-      if (tau6Largest !== null) {
-        result['τ₆(largest)'] = tau6Largest;
-      }
-    
-      const tau6Smallest = calcTau6Intra(angles);
-      if (tau6Smallest !== null) {
-        result['τ₆(smallest)'] = tau6Smallest.tau;
-        result['θ₆(smallest) /°'] = tau6Smallest.thetaIntra;
-      }
     }
+//    if (cn === 6 && angles.length === 15) {
+//      const O = calcOctahedricity(angles);
+//      if (O !== null) result['O'] = O;
+//    
+//      const tau6Largest = calcTau6StoeckliEvans(angles);
+//      if (tau6Largest !== null) {
+//       result['τ₆(largest)'] = tau6Largest;
+//     }
+//    
+//      const tau6Smallest = calcTau6Intra(angles);
+//      if (tau6Smallest !== null) {
+//        result['τ₆(smallest)'] = tau6Smallest.tau;
+//        result['θ₆(smallest) /°'] = tau6Smallest.thetaIntra;
+//      }
+//    }
   }
 
   const volume = calcPolyhedralVolume(centralAtom, ligands);

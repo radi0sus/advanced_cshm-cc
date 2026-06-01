@@ -25,16 +25,12 @@ The original Python tool is:
 
 [`cshm-cc`](https://github.com/radi0sus/cshm-cc)
 
-The Python version is a command-line program using `gemmi`, `numpy`, `scipy`,
-`tabulate`, and related scientific Python libraries. It supports local CIF files
-and can also retrieve CIF files directly from the COD by COD ID.
-
 This browser version follows the same general purpose:
 
 - automatic detection of central metal sites,
 - coordination-sphere generation,
 - CShM calculation for CN 2–6,
-- τ₄, τ₄′, τ₅, octahedricity *O*, and two τ₆-type descriptors for CN = 6,
+- τ₄, τ₄′, τ₅, and octahedricity *O*,
 - polyhedral volume,
 - XYZ export of coordination spheres with the metal atom at the origin.
 
@@ -53,14 +49,7 @@ The web app uses plain JavaScript and bundled browser libraries.
 The Python CLI can download structures from the Crystallography Open Database
 (COD) by COD ID.
 
-The browser app cannot directly fetch CIF files from COD because of browser CORS
-restrictions. For example, a request from GitHub Pages to:
-
-```text
-https://www.crystallography.net/cod/<COD-ID>.cif
-```
-
-is blocked by the browser unless COD allows that origin.
+The browser app cannot directly fetch CIF files from COD.
 
 Recommended workflow for COD structures:
 
@@ -239,7 +228,7 @@ element symbol internally.
 The Markdown export contains one section per metal site, including:
 
 - CN,
-- τ₄, τ₄′, τ₅, *O*, τ₆(largest), τ₆(smallest) where applicable,
+- τ₄, τ₄′, τ₅, *O*, where applicable,
 - polyhedral volume,
 - CShM table,
 - ligand table with distances and symmetry information.
@@ -409,120 +398,6 @@ where:
 
 *O* is close to zero for an almost ideal octahedron.
 
-### τ₆ descriptors for six-coordinate compounds
-
-For six-coordinate compounds, the web app reports two additional τ₆-type
-descriptors:
-
-```text
-τ₆(largest)
-τ₆(smallest)
-```
-
-They are intended as auxiliary descriptors for distinguishing octahedral,
-trigonal-prismatic, and related six-coordinate environments.
-
-#### τ₆(largest)
-
-`τ₆(largest)` follows the six-coordinate geometry-index approach described by
-Helen Stoeckli-Evans and co-workers for six-coordinate Cd(II) environments.
-
-It is calculated from the three largest ligand-metal-ligand angles:
-
-```math
-\tau_6(\mathrm{largest}) =
-\frac{540^\circ - (\alpha_1 + \alpha_2 + \alpha_3)}{180^\circ}
-```
-
-where:
-
-```text
-α₁, α₂, α₃ = the three largest L–M–L angles
-```
-
-For an ideal octahedron:
-
-```text
-α₁ = α₂ = α₃ = 180°
-τ₆(largest) = 0
-```
-
-For increasingly trigonal-prismatic or distorted six-coordinate environments,
-the three largest angles become smaller and `τ₆(largest)` increases.
-
-This descriptor is based on the τ₆ formulation discussed in:
-
-> Helen Stoeckli-Evans, M. G. Shankar, R. Kumaravel, A. Subashini,
-> T. Sabari Girisun, K. Ramamurthi, Monika Kučeráková, Michal Dušek
-> and Aurélien Crochet,  
-> "Di-μ3-chlorido-1:2:3κ3Cl;2:3:4κ3Cl-di-μ2-chlorido-1:2κ2Cl;3:4κ2Cl-tetrakis[(4-amino-1,5-dimethyl-2-phenyl-2,3-dihydro-1H-pyrazol-3-one-κ2N4,O)chloridocadmium(II)] 1.7-hydrate:
-> a new six-coordinate geometry index, τ6",  
-> *Acta Crystallographica Section E: Crystallographic Communications*
-> **2025**, *81*, 393–400.  
-> DOI: https://doi.org/10.1107/S2056989025003123
-
-#### τ₆(smallest)
-
-`τ₆(smallest)` is an additional descriptor implemented in this web app. It is
-based on the six smallest ligand-metal-ligand angles.
-
-First, the mean of the six smallest L–M–L angles is calculated:
-
-```math
-\theta_6(\mathrm{smallest}) =
-\frac{1}{6}\sum_{i=1}^{6}\theta_i
-```
-
-where:
-
-```text
-θᵢ = the six smallest L–M–L angles
-```
-
-Then:
-
-```math
-\tau_6(\mathrm{smallest}) =
-\frac{90^\circ - \theta_6(\mathrm{smallest})}{19.47^\circ}
-```
-
-The value `19.47°` corresponds to:
-
-```text
-90.00° − 70.53°
-```
-
-so that:
-
-```text
-ideal octahedral limit:
-θ₆(smallest) ≈ 90°
-τ₆(smallest) ≈ 0
-```
-
-and for a trigonal-prismatic limiting case:
-
-```text
-θ₆(smallest) ≈ 70.53°
-τ₆(smallest) ≈ 1
-```
-
-The app also reports:
-
-```text
-θ₆(smallest) /°
-```
-
-as the mean of the six smallest angles.
-
-The two descriptors are reported separately because they are based on different
-angle selections:
-
-```text
-τ₆(largest)   → three largest L–M–L angles
-τ₆(smallest)  → six smallest L–M–L angles
-```
-
 ---
 
 ## CShM reference shapes
@@ -628,9 +503,6 @@ The exact same labelled atom as the central atom is always excluded.
 - Estimated standard deviations on bond lengths and angles are not calculated.
 - CShM is currently implemented for CN 2–6.
 - Very large CIFs or many metal sites may be slower in the browser.
-- The two τ₆ descriptors are experimental/auxiliary CN = 6 descriptors and
-  should be interpreted together with CShM values, octahedricity *O*, and visual
-  inspection of the coordination sphere.
 
 ---
 
@@ -721,17 +593,6 @@ please cite the relevant literature.
 > with large bite angle sulfur-bridged terpyridyl ligands",  
 > *Inorganic Chemistry Frontiers* **2020**, *7*, 117–127.  
 > DOI: https://doi.org/10.1039/C9QI01009B
-
-### τ₆
-
-> Helen Stoeckli-Evans, M. G. Shankar, R. Kumaravel, A. Subashini,
-> T. Sabari Girisun, K. Ramamurthi, Monika Kučeráková, Michal Dušek
-> and Aurélien Crochet,  
-> "Di-μ3-chlorido-1:2:3κ3Cl;2:3:4κ3Cl-di-μ2-chlorido-1:2κ2Cl;3:4κ2Cl-tetrakis[(4-amino-1,5-dimethyl-2-phenyl-2,3-dihydro-1H-pyrazol-3-one-κ2N4,O)chloridocadmium(II)] 1.7-hydrate:
-> a new six-coordinate geometry index, τ6",  
-> *Acta Crystallographica Section E: Crystallographic Communications*
-> **2025**, *81*, 393–400.  
-> DOI: https://doi.org/10.1107/S2056989025003123
 
 ### Continuous Shape Measures
 
